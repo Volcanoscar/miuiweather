@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.miuiweather.CityAcitvity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/city_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/relative_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="#70f1efef"
+            android:padding="8dp"
+            android:layout_alignTop="@+id/city_edit"
+            android:layout_alignBottom="@+id/city_edit"
+            android:id="@+id/image_user"
+            android:src="@mipmap/seach"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:textSize="12sp"
+            android:padding="10dp"
+            android:background="#70f1efef"
+            android:layout_toRightOf="@+id/image_user"
+            android:id="@+id/city_edit"
+            android:textColorHint="#c1c0c0"
+            android:hint="这里可以搜索您的城市呦"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/relative_search"
+    android:id="@+id/cityactivity_recycle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    <com.example.miuiweather.QulikSearchBar
+        android:layout_below="@+id/relative_search"
+        android:layout_marginRight="1dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/city_qulikcearchbar"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

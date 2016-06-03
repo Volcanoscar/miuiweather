@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:PageView="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fg_tv_tem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:text="32"
+        android:textSize="45sp"/>
+
+    <TextView
+        android:id="@+id/fg_tv_cond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fg_tv_tem"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="多云"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/fg_tv_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fg_tv_cond"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="西风|4-5级"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <com.example.miuiweather.PageView
+            android:id="@+id/av_frag1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            PageView:date="5.4"
+            PageView:temp="20/30"
+            PageView:weadraw="@mipmap/rain"/>
+
+        <com.example.miuiweather.PageView
+            android:id="@+id/av_frag2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            PageView:date="5.4"
+            PageView:temp="20/30"
+            PageView:weadraw="@mipmap/rain"/>
+
+        <com.example.miuiweather.PageView
+            android:id="@+id/av_frag3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            PageView:date="5.4"
+            PageView:temp="20/30"
+            PageView:weadraw="@mipmap/rain"/>
+
+        <com.example.miuiweather.PageView
+            android:id="@+id/av_frag4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            PageView:date="5.4"
+            PageView:temp="20/30"
+            PageView:weadraw="@mipmap/rain"/>
+    </LinearLayout>
+
+</RelativeLayout>

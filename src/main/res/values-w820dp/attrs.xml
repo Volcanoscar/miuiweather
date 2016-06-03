@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PageView">
+        <attr name="date" format="string"></attr>
+        <attr name="temp" format="string"></attr>
+        <attr name="weadraw" format="reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="PageLine">
+        <attr name="yestotal" format="integer"></attr>
+        <attr name="total" format="integer"></attr>
+        <attr name="montotal" format="integer"></attr>
+    </declare-styleable>
+</resources>
