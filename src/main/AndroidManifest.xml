@@ -18,8 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingActivity">
+
         </activity>
-        <activity android:name=".CityAcitvity">
+        <activity android:name=".CityAcitvity" android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

@@ -21,12 +21,15 @@ public class QulikSearchBar extends View {
             "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z"};
     private Paint mPaint;
+    private float cirX;
+    private float cirY;
     private float cellWidth;
     private float cellHeight;
     private OnNumberClickListener mListener;
     private float width;
     private float height;
     private Context mcontext;
+    private Paint cirPaint;
 
     public void setOnNumberClickListener(OnNumberClickListener listener){
         if (listener!=null){
@@ -55,6 +58,9 @@ public class QulikSearchBar extends View {
         init();
     }
     private void init() {
+        cirPaint=new Paint();
+        cirPaint.setColor(Color.BLUE);
+        cirPaint.setAlpha(30);
         mPaint=new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.BLACK);
@@ -68,6 +74,7 @@ public class QulikSearchBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         cellWidth=measure(widthMeasureSpec,true);
         cellHeight=measure(heightMeasureSpec,false)/AZ.length;
+        cirY=cellHeight/2.0f;
        setMeasuredDimension(measure(widthMeasureSpec,true),measure(heightMeasureSpec,false));
     }
 
@@ -97,14 +104,17 @@ public class QulikSearchBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawCircle(cellWidth/2.0f+cellWidth/8.0f,cirY,cellWidth/4.0f,cirPaint);
         //for
         for (int i=0;i<AZ.length;i++){
             String text=AZ[i];
-            //获取文本的宽度
             int x = (int) (cellWidth /2.0f);
-            int textHeight = (int) (cellHeight*3/4.0f);//获取文本高度
+            int textHeight = (int) (cellHeight*3/4.0f);
             int y = (int) (cellHeight*i+cellHeight/2.0f+textHeight/2.0f);//y是基于baseline
-            canvas.drawText(text,x,y,mPaint);
+            Rect targetRect =new Rect(0,0, (int) cellWidth, (int) cellHeight);
+            Paint.FontMetrics fontMetrics=mPaint.getFontMetrics();
+            int baseline= (int) (((targetRect.bottom + targetRect.top - fontMetrics.bottom - fontMetrics.top)/2)+i*cellHeight);
+            canvas.drawText(text,targetRect.centerX(),baseline,mPaint);
         }
     }
 
@@ -124,31 +134,38 @@ public class QulikSearchBar extends View {
                 index= (int) (event.getY()/cellHeight);//这是判断第几个被选中
                 if (event.getY()/cellHeight<1.0f&&event.getY()/cellHeight>0.0f){
                     if (mListener!=null){
+                        cirY=cellHeight/2;
                         mListener.onNumberClick(AZ[0]);
                     }
                 }
                 if(index>0&&index<AZ.length){
                     if (mListener!=null){
+                        cirY=cellHeight/2+index*cellHeight;
                         mListener.onNumberClick(AZ[index]);
                     }
                 }
+                invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
                 index= (int) (event.getY()/cellHeight);//这是判断第几个被选中
                 if (event.getY()/cellHeight<1.0f&&event.getY()/cellHeight>0.0f){
                     if (mListener!=null){
+                        cirY=cellHeight/2;
                         mListener.onNumberClick(AZ[0]);
                     }
                 }
                 if(index>0&&index<AZ.length){
                     if (mListener!=null){
+                        cirY=cellHeight/2+index*cellHeight;
                         mListener.onNumberClick(AZ[index]);
                     }
                 }
+                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 break;
         }
+        invalidate();
         return true;
     }
 

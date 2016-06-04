@@ -1,10 +1,10 @@
-package com.example.miuiweather;
+package com.example.miuiweather.util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
-
+import com.example.miuiweather.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,9 +19,9 @@ public class DBManager {
     private static String TAG = DBManager.class.getSimpleName();
     private final int BUFFER_SIZE = 400000;
     public static final String DB_NAME = "china_city.db"; //数据库名字
-    public static final String PACKAGE_NAME = "com.xiecc.seeWeather";
+    public static final String PACKAGE_NAME = "com.example.miuiweather";
     public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
-            PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.xiecc.seeWeather/china_city.db)
+            PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.miuiweather/china_city.db)
     private SQLiteDatabase database;
     private Context context;
 

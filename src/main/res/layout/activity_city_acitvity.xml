@@ -20,7 +20,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:background="#70f1efef"
+            android:background="#70ffffff"
             android:padding="8dp"
             android:layout_alignTop="@+id/city_edit"
             android:layout_alignBottom="@+id/city_edit"
@@ -31,7 +31,7 @@
         <EditText
             android:textSize="12sp"
             android:padding="10dp"
-            android:background="#70f1efef"
+            android:background="#70ffffff"
             android:layout_toRightOf="@+id/image_user"
             android:id="@+id/city_edit"
             android:textColorHint="#c1c0c0"
