@@ -33,20 +33,14 @@ public class ViewpageFragment extends Fragment {
     private String mParam2;
 
     //this  are all views in fragment
-    @BindView(R.id.av_frag1)
-    PageView pageView1;
-    @BindView(R.id.av_frag2)
-    PageView pageView2;
-    @BindView(R.id.av_frag3)
-    PageView pageView3;
-    @BindView(R.id.av_frag4)
-    PageView pageView4;
     @BindView(R.id.fg_tv_cond)
     TextView tvcond;
     @BindView(R.id.fg_tv_tem)
     TextView tvtemp;
     @BindView(R.id.fg_tv_wind)
     TextView tvwind;
+    @BindView(R.id.fg_tv_suggestion)
+    TextView tvsuggest;
     private Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
@@ -85,10 +79,6 @@ public class ViewpageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_viewpage, container, false);
         unbinder= ButterKnife.bind(this,view);
-        setPageview(pageView1,14,20,16);
-        setPageview(pageView2,16,23,12);
-        setPageview(pageView3,12,26,18);
-        setPageview(pageView4,18,23,15);
         return view;
     }
 
@@ -131,16 +121,12 @@ public class ViewpageFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    /**
-     * 用于设置pageview中的折线属性
-     * @param page
-     * @param yes
-     * @param today
-     * @param mon
-     */
-    private void setPageview(PageView page,int yes,int today,int mon) {
-        page.setTotaltemp(today);
-        page.setYesTotaltemp(yes);
-        page.setMonTotaltemp(mon);
+    public void setFragmentData(String cond,String temp,String wind,String suggest){
+        tvcond.setText(cond);
+        tvtemp.setText(temp);
+        tvwind.setText(wind);
+        tvsuggest.setText(suggest);
     }
+
+
 }

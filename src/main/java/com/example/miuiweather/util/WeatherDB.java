@@ -17,19 +17,17 @@ import java.util.List;
 public class WeatherDB {
 
     private Context context;
-
     public WeatherDB(Context context) {
         this.context = context;
     }
 
     public List<City> loadCities(SQLiteDatabase db) {
         List<City> list = new ArrayList<>();
-        Cursor cursor = db.query("T_City", null, null, null, null, null, null);
+        Cursor cursor = db.query("city", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 City city = new City();
-                city.CityName = cursor.getString(cursor.getColumnIndex("CityName"));
-                city.CitySort = cursor.getInt(cursor.getColumnIndex("CitySort"));
+                city.CityName = cursor.getString(cursor.getColumnIndex("city"));
                 list.add(city);
             } while (cursor.moveToNext());
         }

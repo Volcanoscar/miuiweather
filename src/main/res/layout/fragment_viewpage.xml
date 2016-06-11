@@ -33,48 +33,14 @@
         android:text="西风|4-5级"
         android:textSize="20sp"/>
 
-    <LinearLayout
-        android:id="@+id/radiogroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <com.example.miuiweather.PageView
-            android:id="@+id/av_frag1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            PageView:date="5.4"
-            PageView:temp="20/30"
-            PageView:weadraw="@mipmap/rain"/>
-
-        <com.example.miuiweather.PageView
-            android:id="@+id/av_frag2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            PageView:date="5.4"
-            PageView:temp="20/30"
-            PageView:weadraw="@mipmap/rain"/>
-
-        <com.example.miuiweather.PageView
-            android:id="@+id/av_frag3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            PageView:date="5.4"
-            PageView:temp="20/30"
-            PageView:weadraw="@mipmap/rain"/>
-
-        <com.example.miuiweather.PageView
-            android:id="@+id/av_frag4"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            PageView:date="5.4"
-            PageView:temp="20/30"
-            PageView:weadraw="@mipmap/rain"/>
-    </LinearLayout>
+    <TextView
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="白天天气晴好，您在这种天气条件下，会感觉早晚凉爽、舒适，午后偏热。"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/fg_tv_wind"
+        android:id="@+id/fg_tv_suggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

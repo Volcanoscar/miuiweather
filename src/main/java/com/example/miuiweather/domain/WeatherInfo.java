@@ -11,13 +11,6 @@ import java.util.List;
 public class WeatherInfo implements Serializable {
 
     /**
-     * aqi : {"city":{"aqi":"84","co":"1","no2":"22","o3":"169","pm10":"76","pm25":"84","qlty":"良","so2":"18"}}
-     * basic : {"city":"北京","cnty":"中国","id":"CN101010100","lat":"39.904000","lon":"116.391000","update":{"loc":"2016-05-08 19:50","utc":"2016-05-08 11:50"}}
-     * daily_forecast : [{"astro":{"sr":"05:05","ss":"19:15"},"cond":{"code_d":"100","code_n":"101","txt_d":"晴","txt_n":"多云"},"date":"2016-05-08","hum":"19","pcpn":"0.0","pop":"0","pres":"1011","tmp":{"max":"30","min":"17"},"vis":"10","wind":{"deg":"205","dir":"无持续风向","sc":"微风","spd":"9"}},{"astro":{"sr":"05:04","ss":"19:16"},"cond":{"code_d":"305","code_n":"101","txt_d":"小雨","txt_n":"多云"},"date":"2016-05-09","hum":"33","pcpn":"0.5","pop":"60","pres":"1011","tmp":{"max":"25","min":"12"},"vis":"10","wind":{"deg":"91","dir":"无持续风向","sc":"微风","spd":"5"}},{"astro":{"sr":"05:03","ss":"19:17"},"cond":{"code_d":"100","code_n":"101","txt_d":"晴","txt_n":"多云"},"date":"2016-05-10","hum":"26","pcpn":"0.0","pop":"8","pres":"1009","tmp":{"max":"27","min":"16"},"vis":"10","wind":{"deg":"195","dir":"无持续风向","sc":"微风","spd":"3"}},{"astro":{"sr":"05:02","ss":"19:18"},"cond":{"code_d":"104","code_n":"104","txt_d":"阴","txt_n":"阴"},"date":"2016-05-11","hum":"30","pcpn":"0.3","pop":"69","pres":"998","tmp":{"max":"30","min":"21"},"vis":"9","wind":{"deg":"217","dir":"无持续风向","sc":"微风","spd":"8"}},{"astro":{"sr":"05:01","ss":"19:19"},"cond":{"code_d":"300","code_n":"100","txt_d":"阵雨","txt_n":"晴"},"date":"2016-05-12","hum":"53","pcpn":"3.9","pop":"64","pres":"1013","tmp":{"max":"24","min":"14"},"vis":"2","wind":{"deg":"129","dir":"无持续风向","sc":"微风","spd":"0"}},{"astro":{"sr":"05:00","ss":"19:20"},"cond":{"code_d":"100","code_n":"101","txt_d":"晴","txt_n":"多云"},"date":"2016-05-13","hum":"18","pcpn":"0.0","pop":"2","pres":"1021","tmp":{"max":"24","min":"14"},"vis":"10","wind":{"deg":"189","dir":"无持续风向","sc":"微风","spd":"6"}},{"astro":{"sr":"04:59","ss":"19:21"},"cond":{"code_d":"104","code_n":"104","txt_d":"阴","txt_n":"阴"},"date":"2016-05-14","hum":"16","pcpn":"0.0","pop":"1","pres":"1016","tmp":{"max":"23","min":"15"},"vis":"10","wind":{"deg":"192","dir":"无持续风向","sc":"微风","spd":"3"}}]
-     * hourly_forecast : [{"date":"2016-05-08 19:00","hum":"25","pop":"0","pres":"1009","tmp":"27","wind":{"deg":"191","dir":"南风","sc":"3-4","spd":"19"}},{"date":"2016-05-08 22:00","hum":"29","pop":"0","pres":"1010","tmp":"23","wind":{"deg":"198","dir":"西南风","sc":"3-4","spd":"22"}}]
-     * now : {"cond":{"code":"101","txt":"多云"},"fl":"24","hum":"42","pcpn":"0","pres":"1009","tmp":"21","vis":"10","wind":{"deg":"190","dir":"西南风","sc":"5-6","spd":"31"}}
-     * status : ok
-     * suggestion : {"comf":{"brf":"舒适","txt":"白天不太热也不太冷，风力不大，相信您在这样的天气条件下，应会感到比较清爽和舒适。"},"cw":{"brf":"不宜","txt":"不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"},"drsg":{"brf":"较舒适","txt":"建议着薄外套、开衫牛仔衫裤等服装。年老体弱者应适当添加衣物，宜着夹克衫、薄毛衣等。"},"flu":{"brf":"较易发","txt":"相对今天出现了较大幅度降温，较易发生感冒，体质较弱的朋友请注意适当防护。"},"sport":{"brf":"较不宜","txt":"有降水，推荐您在室内进行健身休闲运动；若坚持户外运动，须注意携带雨具并注意避雨防滑。"},"trav":{"brf":"适宜","txt":"温度适宜，又有较弱降水和微风作伴，会给您的旅行带来意想不到的景象，适宜旅游，可不要错过机会呦！"},"uv":{"brf":"最弱","txt":"属弱紫外线辐射天气，无需特别防护。若长期在户外，建议涂擦SPF在8-12之间的防晒护肤品。"}}
      */
 
     @SerializedName("HeWeather data service 3.0")
@@ -48,7 +41,7 @@ public class WeatherInfo implements Serializable {
 
         private BasicBean basic;
         /**
-         * cond : {"code":"101","txt":"多云"}
+         * cond : {"code":"yi101","txt":"多云"}
          * fl : 24
          * hum : 42
          * pcpn : 0
@@ -73,7 +66,7 @@ public class WeatherInfo implements Serializable {
         private SuggestionBean suggestion;
         /**
          * astro : {"sr":"05:05","ss":"19:15"}
-         * cond : {"code_d":"100","code_n":"101","txt_d":"晴","txt_n":"多云"}
+         * cond : {"code_d":"100","code_n":"yi101","txt_d":"晴","txt_n":"多云"}
          * date : 2016-05-08
          * hum : 19
          * pcpn : 0.0
@@ -81,7 +74,6 @@ public class WeatherInfo implements Serializable {
          * pres : 1011
          * tmp : {"max":"30","min":"17"}
          * vis : 10
-         * wind : {"deg":"205","dir":"无持续风向","sc":"微风","spd":"9"}
          */
 
         @SerializedName("daily_forecast")
@@ -338,7 +330,7 @@ public class WeatherInfo implements Serializable {
 
         public static class NowBean {
             /**
-             * code : 101
+             * code : yi101
              * txt : 多云
              */
 
@@ -740,7 +732,7 @@ public class WeatherInfo implements Serializable {
             private AstroBean astro;
             /**
              * code_d : 100
-             * code_n : 101
+             * code_n : yi101
              * txt_d : 晴
              * txt_n : 多云
              */
@@ -759,7 +751,6 @@ public class WeatherInfo implements Serializable {
             private TmpBean tmp;
             private String vis;
             /**
-             * deg : 205
              * dir : 无持续风向
              * sc : 微风
              * spd : 9

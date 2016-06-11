@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class DBManager {
     private static String TAG = DBManager.class.getSimpleName();
     private final int BUFFER_SIZE = 400000;
-    public static final String DB_NAME = "china_city.db"; //数据库名字
+    public static final String DB_NAME = "city.db"; //数据库名字
     public static final String PACKAGE_NAME = "com.example.miuiweather";
     public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
             PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.miuiweather/china_city.db)
@@ -52,7 +52,7 @@ public class DBManager {
         try {
             if (!(new File(dbfile).exists())) {
                 //判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
-                InputStream is = this.context.getResources().openRawResource(R.raw.china_city); //欲导入的数据库
+                InputStream is = this.context.getResources().openRawResource(R.raw.city); //欲导入的数据库
                 FileOutputStream fos = new FileOutputStream(dbfile);
                 byte[] buffer = new byte[BUFFER_SIZE];
                 int count = 0;

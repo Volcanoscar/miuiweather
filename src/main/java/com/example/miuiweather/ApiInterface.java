@@ -14,8 +14,8 @@ public interface ApiInterface {
 
     String HOST = "https://api.heweather.com/x3/";
 
-    @GET("x3/weather")
-    Observable<WeatherInfo> getWeatherInfo(@Query("cityid") String id, @Query("key") String key);
+    @GET("weather")
+    Observable<WeatherInfo> getWeatherInfo(@Query("city") String city, @Query("key") String key);
 
     @GET("x3/weather")
     Call<String> getJson(@Query("cityid") String id, @Query("key") String key);

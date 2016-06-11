@@ -2,11 +2,16 @@ package com.example.miuiweather.domain;
 
 import java.io.Serializable;
 
-/**
- * Created by hugo on 2015/9/30 0030.
- */
-public class City implements Serializable {
+import retrofit2.Call;
 
+/**
+ * Created by kidcats on 2016/6/7.
+ */
+public class City implements Serializable{
     public String CityName;
-    public int CitySort;
+    public String cityID;
+    public City(){}
+    public City(String cityName){
+        this.CityName=cityName;
+    }
 }

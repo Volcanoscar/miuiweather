@@ -51,6 +51,7 @@ public class PageView extends LinearLayout {
     }
 
 
+
     private void initView(View view) {
         ButterKnife.bind(this, view);
     }
@@ -80,5 +81,19 @@ public class PageView extends LinearLayout {
      */
     public void setMonTotaltemp(int total) {
         pageLine.setMonTotal(total);
+    }
+
+    /**
+     * 以下三个方法用于代码设置
+     * @param temp
+     */
+    public void setTvtemp(String temp){
+        tvtemp.setText(temp);
+    }
+    public  void setTvdate(String data){
+        tvdate.setText(data);
+    }
+    public void setPageimage(Drawable drawable){
+        pageimage.setImageDrawable(drawable);
     }
 }

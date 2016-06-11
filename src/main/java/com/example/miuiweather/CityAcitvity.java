@@ -1,11 +1,13 @@
 package com.example.miuiweather;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,8 +15,10 @@ import com.example.miuiweather.domain.City;
 import com.example.miuiweather.util.CityNameUtil;
 import com.example.miuiweather.util.DBManager;
 import com.example.miuiweather.util.WeatherDB;
-import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +57,9 @@ public class CityAcitvity extends AppCompatActivity {
         Observable.defer(new Func0<Observable<Object>>() {
             @Override
             public Observable<Object> call() {
-                mDbmanager = new DBManager(CityAcitvity.this);
+                mDbmanager=new DBManager(CityAcitvity.this);
+                mWeatherDb=new WeatherDB(CityAcitvity.this);
                 mDbmanager.openDatabase();
-                mWeatherDb = new WeatherDB(CityAcitvity.this);
                 return Observable.just(1);
             }
         }).subscribeOn(Schedulers.io())
@@ -66,7 +70,6 @@ public class CityAcitvity extends AppCompatActivity {
                         cityname = new ArrayList<String>();
                         queryCity();
                         initView();
-
                     }
                 });
 
@@ -78,6 +81,7 @@ public class CityAcitvity extends AppCompatActivity {
             @Override
             public Observable<City> call() {
                 mcityList = mWeatherDb.loadCities(mDbmanager.getDatabase());
+                Log.i("city", String.valueOf(mcityList.size()));
                 Initialsmap=CityNameUtil.findNumber(CityNameUtil.getCityName(mcityList));
                 return Observable.from(mcityList);
             }
@@ -99,9 +103,6 @@ public class CityAcitvity extends AppCompatActivity {
                         cityname.add(city.CityName);
                     }
                 });
-        if (mcityList == null) {
-            mcityList = mWeatherDb.loadCities(mDbmanager.getDatabase());
-        }
     }
 
 
@@ -116,13 +117,17 @@ public class CityAcitvity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, String name) {
                 Toast.makeText(CityAcitvity.this,name,Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent.putExtra("city",name);
+                setResult(2,intent);
+                finish();
             }
         });
         qulikSearchBar.setOnNumberClickListener(new QulikSearchBar.OnNumberClickListener() {
             @Override
             public void onNumberClick(String input) {
-                int targetnum=Initialsmap.get(input.toLowerCase());
-                recyclerView.smoothScrollToPosition(targetnum);
+                int target=Initialsmap.get(input.toLowerCase());
+                recyclerView.smoothScrollToPosition(target);
             }
         });
     }
