@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.miuiweather.domain.City;
 import com.example.miuiweather.domain.WeatherInfo;
 import com.example.miuiweather.util.ACache;
+import com.example.miuiweather.util.Setting;
 import com.example.miuiweather.util.Util;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -41,10 +43,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class MainActivity extends AppCompatActivity implements ViewpageFragment.OnFragmentInteractionListener, AMapLocationListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements ViewpageFragment.OnFragmentInteractionListener, AMapLocationListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, ViewPager.OnPageChangeListener {
     public static final String KEY = "e7fd88700e284884a8ca79b30e33c9f8";
     public static int HOUR = 1000 * 60 * 60;
-    private String cityname = "北京";
+    private Setting mSetting;
     private FragmentPagerAdapter mAdapter;
     private List<Fragment> mFragments = new ArrayList<Fragment>();
     private ACache aCache;
@@ -72,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     PageView pageView2;
     @BindView(R.id.av_frag3)
     PageView pageView3;
-    @BindView(R.id.radiogroup)
-    RadioGroup radioGroup;
 
 
     private Observer<WeatherInfo.HeWeatherdataserviceBean> observer;
@@ -91,8 +91,9 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         aCache = ACache.get(this);
+        mSetting=Setting.getInstance(getApplicationContext());
         bean = new WeatherInfo.HeWeatherdataserviceBean();
-        initRadio();
+        initPageview();
         initDraw();
         initadapter();
         initObserver();
@@ -109,26 +110,11 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
 
     }
 
-    private void initRadio() {
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.av_frag1:
-                        viewPager.setCurrentItem(0);
-                        Log.i("radio","0bei dianji ");
-                        break;
-                    case R.id.av_frag2:
-                        viewPager.setCurrentItem(1);
-                        Log.i("radio","1bei dianji ");
-                        break;
-                    case R.id.av_frag3:
-                        viewPager.setCurrentItem(2);
-                        Log.i("radio","2bei dianji ");
-                        break;
-                }
-            }
-        });
+    private void initPageview() {
+        pageView1.setOnClickListener(this);
+        pageView2.setOnClickListener(this);
+        pageView3.setOnClickListener(this);
+        viewPager.addOnPageChangeListener(this);
     }
 
 
@@ -151,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         apiInterface = retrofit.create(ApiInterface.class);
-        apiInterface.getWeatherInfo(cityname, KEY)
+        apiInterface.getWeatherInfo(mSetting.getCityName(), KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(weatherapi -> weatherapi.getHeWeatherdataservice().get(0).getStatus().equals("ok"))
@@ -177,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
             }
         });
 
+
     }
 
     private void initadapter() {
@@ -198,12 +185,7 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getDataByNet(observer);
-            }
-        },1000);
+        swipeRefreshLayout.postDelayed(()->getDataByNet(observer),1000);
     }
 
     @Override
@@ -211,8 +193,9 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
             swipeRefreshLayout.setRefreshing(true);
-            cityname = data.getStringExtra("city").substring(0, 2);
-            Log.i("tag", cityname);
+            String citynames = data.getStringExtra("city").substring(0, 2);
+            mSetting.setCityName(citynames);
+            Log.i("tag", citynames);
             getDataByNet(observer);
         }
     }
@@ -234,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
             @Override
             public void onNext(WeatherInfo.HeWeatherdataserviceBean heWeatherdataserviceBean) {
                 aCache.put("weatherdata", heWeatherdataserviceBean, HOUR);
-                textcity.setText(cityname);
+                textcity.setText(mSetting.getCityName());
                 bean.setAqi(heWeatherdataserviceBean.getAqi());
                 bean.setBasic(heWeatherdataserviceBean.getBasic());
                 bean.setDailyforecast(heWeatherdataserviceBean.getDailyforecast());
@@ -252,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
                 pageView2.setPageimage(Util.SelectIcon(MainActivity.this, bean.getDailyforecast().get(1).getCond().getCoded()));
                 pageView3.setPageimage(Util.SelectIcon(MainActivity.this, bean.getDailyforecast().get(2).getCond().getCoded()));
                 ViewpageFragment fragment = (ViewpageFragment) mFragments.get(viewPager.getCurrentItem());
-                String temp = bean.getDailyforecast().get(viewPager.getCurrentItem()).getTmp().getMax();
+                String temp = bean.getDailyforecast().get(viewPager.getCurrentItem()).getTmp().getMax()+"°";
                 String cond = bean.getDailyforecast().get(viewPager.getCurrentItem()).getCond().getTxtd();
                 String wind = bean.getDailyforecast().get(viewPager.getCurrentItem()).getWind().getDir()
                         + "|" + bean.getDailyforecast().get(viewPager.getCurrentItem()).getWind().getSpd();
@@ -297,11 +280,12 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
             if (!(TextUtils.isEmpty(aMapLocation.getCity()))) {
-                cityname = aMapLocation.getCity();
+                mSetting.setCityName(aMapLocation.getCity());
                 Log.i("location", aMapLocation.getCity());
                 getDataByNet(observer);
             } else {
                 Log.i("location", "定位的城市为空");
+                Log.i("location", aMapLocation.toString());
             }
         }
     }
@@ -311,6 +295,44 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
         super.onDestroy();
         if (mLocationClient != null) {
             mLocationClient.unRegisterLocationListener(this);
+        }
+    }
+
+    /**
+     * 这个是用于判断那一个pageview陪点击
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.av_frag1:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.av_frag2:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.av_frag3:
+                viewPager.setCurrentItem(2);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        //state的状态有三个，0表示什么都没做，1正在滑动，2滑动完毕
+        if (state==2){
+            swipeRefreshLayout.setRefreshing(true);
+            getDataByNet(observer);
         }
     }
 }

@@ -20,28 +20,10 @@
             android:layout_width="?attr/actionBarSize"
             android:layout_height="match_parent"></android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:text="铜 陵"
-            android:id="@+id/city_text"
-            android:layout_marginTop="19dp"
-            android:textSize="22sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <android.support.v4.widget.SwipeRefreshLayout
-            android:layout_margin="15dp"
             android:id="@+id/include_swiperefresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <android.support.v4.view.ViewPager
-                android:layout_marginTop="35dp"
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v4.view.ViewPager>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
             <include
@@ -52,8 +34,16 @@
                 android:id="@+id/include"/>
 
         </android.support.v4.widget.SwipeRefreshLayout>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/city_text"
+            android:layout_marginTop="19dp"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <RadioGroup
+
+        <LinearLayout
             android:id="@+id/radiogroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +72,16 @@
                 android:layout_weight="1"
                 PageView:weadraw="@mipmap/rain"/>
 
-        </RadioGroup>
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/radiogroup"
+            android:layout_centerHorizontal="true">
+
+        </android.support.v4.view.ViewPager>
 
 
     </RelativeLayout>

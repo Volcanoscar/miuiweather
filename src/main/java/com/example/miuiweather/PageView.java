@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,9 +47,15 @@ public class PageView extends LinearLayout {
         a.recycle();
     }
 
+    @Override
+    protected boolean dispatchGenericFocusedEvent(MotionEvent event) {
+        return false;
+    }
+
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
 
 
@@ -85,15 +92,18 @@ public class PageView extends LinearLayout {
 
     /**
      * 以下三个方法用于代码设置
+     *
      * @param temp
      */
-    public void setTvtemp(String temp){
+    public void setTvtemp(String temp) {
         tvtemp.setText(temp);
     }
-    public  void setTvdate(String data){
+
+    public void setTvdate(String data) {
         tvdate.setText(data);
     }
-    public void setPageimage(Drawable drawable){
+
+    public void setPageimage(Drawable drawable) {
         pageimage.setImageDrawable(drawable);
     }
 }

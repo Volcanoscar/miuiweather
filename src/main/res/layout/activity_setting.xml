@@ -10,4 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.miuiweather.SettingActivity">
 
+
+    <TextView
+        android:text="还没想好设置什么,就这样吧"
+        android:id="@+id/textsetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

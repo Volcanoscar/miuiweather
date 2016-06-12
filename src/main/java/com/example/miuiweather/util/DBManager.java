@@ -21,7 +21,7 @@ public class DBManager {
     public static final String DB_NAME = "city.db"; //数据库名字
     public static final String PACKAGE_NAME = "com.example.miuiweather";
     public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
-            PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.miuiweather/china_city.db)
+            PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.miuiweather/city.db)
     private SQLiteDatabase database;
     private Context context;
 
