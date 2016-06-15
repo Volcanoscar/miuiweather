@@ -6,13 +6,6 @@
               android:descendantFocusability="blocksDescendants"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.example.miuiweather.PageLine
-        android:id="@+id/page_line"
-        pageline:total="20"
-        pageline:yestotal="30"
-        pageline:montotal="15"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
     <TextView
         android:textSize="10sp"
         android:gravity="center"

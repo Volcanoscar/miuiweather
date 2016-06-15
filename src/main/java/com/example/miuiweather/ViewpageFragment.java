@@ -122,11 +122,12 @@ public class ViewpageFragment extends Fragment {
     }
 
     public void setFragmentData(String cond,String temp,String wind,String suggest){
-        tvcond.setText(cond);
-        tvtemp.setText(temp);
-        tvwind.setText(wind);
-        tvsuggest.setText(suggest);
+        if (tvsuggest!=null&&tvtemp!=null&&tvwind!=null&&tvcond!=null){
+            tvcond.setText(cond);
+            tvtemp.setText(temp);
+            tvwind.setText(wind);
+            tvsuggest.setText(suggest);
+        }
     }
-
 
 }

@@ -10,16 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.miuiweather.domain.City;
 import com.example.miuiweather.domain.WeatherInfo;
 import com.example.miuiweather.util.ACache;
 import com.example.miuiweather.util.Setting;
@@ -28,10 +24,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Retrofit;
@@ -64,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     ViewPager viewPager;
     @BindView(R.id.include_swiperefresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     @BindView(R.id.av_frag1)
@@ -74,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     PageView pageView2;
     @BindView(R.id.av_frag3)
     PageView pageView3;
+    @BindView(R.id.simpleline)
+    SimpleLine simpleLine;
 
 
     private Observer<WeatherInfo.HeWeatherdataserviceBean> observer;
@@ -110,14 +106,6 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
 
     }
 
-    private void initPageview() {
-        pageView1.setOnClickListener(this);
-        pageView2.setOnClickListener(this);
-        pageView3.setOnClickListener(this);
-        viewPager.addOnPageChangeListener(this);
-    }
-
-
     private void getDataByCache(Observer<WeatherInfo.HeWeatherdataserviceBean> observer) {
         WeatherInfo.HeWeatherdataserviceBean weatherInfo = null;
         weatherInfo = (WeatherInfo.HeWeatherdataserviceBean) aCache.getAsObject("weatherdata");
@@ -144,6 +132,32 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
                 .map(weatherInfo -> weatherInfo.getHeWeatherdataservice().get(0))
                 .subscribe(observer);
     }
+
+    private void initPageview() {
+        pageView1.setOnClickListener(this);
+        pageView2.setOnClickListener(this);
+        pageView3.setOnClickListener(this);
+        viewPager.addOnPageChangeListener(this);
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:// 经测试，ViewPager的DOWN事件不会被分发下来
+                    case MotionEvent.ACTION_MOVE:
+                        swipeRefreshLayout.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        swipeRefreshLayout.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+
 
 
     private void initDraw() {
@@ -237,15 +251,29 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
                 ViewpageFragment fragment = (ViewpageFragment) mFragments.get(viewPager.getCurrentItem());
                 String temp = bean.getDailyforecast().get(viewPager.getCurrentItem()).getTmp().getMax()+"°";
                 String cond = bean.getDailyforecast().get(viewPager.getCurrentItem()).getCond().getTxtd();
-                String wind = bean.getDailyforecast().get(viewPager.getCurrentItem()).getWind().getDir()
-                        + "|" + bean.getDailyforecast().get(viewPager.getCurrentItem()).getWind().getSpd();
+                String wind = bean.getDailyforecast().get(viewPager.getCurrentItem()).getWind().getDir();
                 String sugg = bean.getSuggestion().getComf().getTxt();
                 fragment.setFragmentData(cond, temp, wind, sugg);
+                setlinedata(bean);
                 mAdapter.notifyDataSetChanged();
             }
         };
+    }
 
-
+    /**
+     * 用于设置pageview中的pageline
+     * @param bean
+     */
+    private void setlinedata(WeatherInfo.HeWeatherdataserviceBean bean) {
+        int todatlow= Integer.parseInt(bean.getDailyforecast().get(0).getTmp().getMin());//今天的最低气温
+        int todatmax= Integer.parseInt(bean.getDailyforecast().get(0).getTmp().getMax());//今天的最高气温
+        int tomorlow= Integer.parseInt(bean.getDailyforecast().get(1).getTmp().getMin());
+        int tomormax= Integer.parseInt(bean.getDailyforecast().get(1).getTmp().getMax());
+        int lastlow= Integer.parseInt(bean.getDailyforecast().get(2).getTmp().getMin());
+        int lastmax= Integer.parseInt(bean.getDailyforecast().get(2).getTmp().getMax());
+        int llastlow=Integer.parseInt(bean.getDailyforecast().get(3).getTmp().getMin());
+        int[] temps={todatlow,todatmax,tomorlow,tomormax,lastlow,lastmax,llastlow};
+        simpleLine.setPointValue(temps);
     }
 
 
@@ -255,21 +283,15 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     private void location() {
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
+        mLocationOption = new AMapLocationClientOption();
         //设置定位回调监听
         mLocationClient.setLocationListener(this);
-        mLocationOption = new AMapLocationClientOption();
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
-        //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(false);
-        //设置是否强制刷新WIFI，默认为强制刷新
-        mLocationOption.setWifiActiveScan(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
         //设置定位间隔 单位毫秒
-        mLocationOption.setInterval(HOUR);
+        mLocationOption.setInterval(mSetting.LOCATION_TIME);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -279,13 +301,19 @@ public class MainActivity extends AppCompatActivity implements ViewpageFragment.
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
-            if (!(TextUtils.isEmpty(aMapLocation.getCity()))) {
-                mSetting.setCityName(aMapLocation.getCity());
-                Log.i("location", aMapLocation.getCity());
+            if (aMapLocation.getErrorCode()==0) {
+                mSetting.setCityName(aMapLocation.getCity().substring(0,2));
+                Log.i("location", aMapLocation.getCity().substring(0,2));
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date(aMapLocation.getTime());
+                df.format(date);//定位时间
                 getDataByNet(observer);
             } else {
                 Log.i("location", "定位的城市为空");
-                Log.i("location", aMapLocation.toString());
+                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                Log.e("location","location Error, ErrCode:"
+                        + aMapLocation.getErrorCode() + ", errInfo:"
+                        + aMapLocation.getErrorInfo());
             }
         }
     }

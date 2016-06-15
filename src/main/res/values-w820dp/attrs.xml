@@ -6,9 +6,11 @@
         <attr name="weadraw" format="reference"></attr>
     </declare-styleable>
 
-    <declare-styleable name="PageLine">
-        <attr name="yestotal" format="integer"></attr>
-        <attr name="total" format="integer"></attr>
-        <attr name="montotal" format="integer"></attr>
+    <declare-styleable name="SimpleLine">
+        <attr name="PointColor" format="color"></attr>
+        <attr name="LineColor" format="color"></attr>
+    </declare-styleable>
+    <declare-styleable name="Themes">
+        <attr name="simpleline" format="reference"/>
     </declare-styleable>
 </resources>

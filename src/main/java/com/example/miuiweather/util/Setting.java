@@ -12,7 +12,9 @@ import android.content.SharedPreferences;
 public class Setting {
 
     public static final String CLEAR_CACHE = "clear_cache";//清空缓存
+    public static final int LOCATION_TIME = 1000*60*60;//清空缓存
     public static final String CITY_NAME = "城市";//选择城市
+    public static final int YESTODAY_TEMP = 20;//选择城市
     public static final String NOTIFICATION_MODEL = "notification_model";
 
     public static final String KEY = "282f3846df6b41178e4a2218ae083ea7";// 和风天气 key
@@ -60,5 +62,10 @@ public class Setting {
     }
 
     public String getCityName() {return mPrefs.getString(CITY_NAME, "北京");}
+
+    public void setYestodayTemp(int temp){mPrefs.edit().putInt("yestodaytemp", temp).apply();}
+    public int getYestodayTemp(){
+        return mPrefs.getInt("yestodattemp",YESTODAY_TEMP);
+    }
 
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,8 +23,6 @@ public class PageView extends LinearLayout {
     ImageView pageimage;
     @BindView(R.id.page_tv_temp)
     TextView tvtemp;
-    @BindView(R.id.page_line)
-    PageLine pageLine;
 
 
     public PageView(Context context) {
@@ -57,38 +54,10 @@ public class PageView extends LinearLayout {
     }
 
 
-
-
     private void initView(View view) {
         ButterKnife.bind(this, view);
     }
 
-    /**
-     * 设置pageline中的温度
-     *
-     * @param total
-     */
-    public void setTotaltemp(int total) {
-        pageLine.setTotal(total);
-    }
-
-    /**
-     * 设置pageline中的温度
-     *
-     * @param total
-     */
-    public void setYesTotaltemp(int total) {
-        pageLine.setYesTotal(total);
-    }
-
-    /**
-     * 设置pageline中的温度
-     *
-     * @param total
-     */
-    public void setMonTotaltemp(int total) {
-        pageLine.setMonTotal(total);
-    }
 
     /**
      * 以下三个方法用于代码设置
